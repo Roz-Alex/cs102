@@ -10,7 +10,16 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for j in range (len(keyword)):
+        b = ord(keyword[j])
+        if keyword[j].isupper():
+            key = b - 64
+        elif keyword[j].islower():
+            key = b - 96
+    for i in range (len(plaintext)):
+        if plaintext[i].isalpha():
+            a = ord(plaintext[i])
+            if a.isupper()
     return ciphertext
 
 

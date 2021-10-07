@@ -14,14 +14,25 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
-    return ciphertext
+    chiphertext = ''
+    for i in range (len(plaintext)):
+        if plaintext[i].isalpha():
+            a = ord(plaintext[i])
+            if plaintext[i].isupper() and a >= 88:
+                chiphertext += chr(a-23)
+            elif plaintext[i].islower and a>= 120:
+                chiphertext += chr(a-23)
+            else:
+                chiphertext += chr(a+3)
+        elif plaintext.isspace():
+            continue
+        else:
+            chiphertext += plaintext[i]
+    return chiphertext
 
-
-def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
+def decrypt_caesar(chiphertext: str, shift: int = 3) -> str:
     """
-    Decrypts a ciphertext using a Caesar cipher.
+    Decrypts a chiphertext using a Caesar cipher.
 
     >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
@@ -32,12 +43,23 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
+    plaintext = ''
+    for i in range (len(chiphertext)):
+        if chiphertext[i].isalpha():
+            a = ord(chiphertext[i])
+            if chiphertext[i].isupper() and a <= 67:
+                plaintext += chr(a+23)
+            elif chiphertext[i].islower() and a <= 99:
+                plaintext += chr(a+23)
+            else:
+                plaintext += chr(a-3)
+        elif chiphertext.isspace():
+            continue
+        else:
+            plaintext += chiphertext[i]
     return plaintext
 
-
-def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
+def caesar_breaker_brute_force(chiphertext: str, dictionary: tp.Set[str]) -> int:
     """
     Brute force breaking a Caesar cipher.
     """
