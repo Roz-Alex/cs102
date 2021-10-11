@@ -20,7 +20,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
             a = ord(plaintext[i])
             if plaintext[i].isupper() and a >= 88:
                 chiphertext += chr(a-23)
-            elif plaintext[i].islower and a>= 120:
+            elif plaintext[i].islower() and a >= 120:
                 chiphertext += chr(a-23)
             else:
                 chiphertext += chr(a+3)
@@ -29,6 +29,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
         else:
             chiphertext += plaintext[i]
     return chiphertext
+print (encrypt_caesar('PYTHON python Python3.6', 10))
 
 def decrypt_caesar(chiphertext: str, shift: int = 3) -> str:
     """
