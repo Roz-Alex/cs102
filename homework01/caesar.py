@@ -14,18 +14,16 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
-    chiphertext = ''
-    for i in range (len(plaintext)):
+    chiphertext = ""
+    for i in range(len(plaintext)):
         if plaintext[i].isalpha():
             a = ord(plaintext[i])
-            if plaintext[i].isupper() and a >= 88:
-                chiphertext += chr(a-23)
-            elif plaintext[i].islower() and a >= 120:
-                chiphertext += chr(a-23)
+            if plaintext[i].isupper() and a >= 91-shift:
+                chiphertext += chr(a-26+shift)
+            elif plaintext[i].islower() and a >= 123-shift:
+                chiphertext += chr(a-26+shift)
             else:
-                chiphertext += chr(a+3)
-        elif plaintext.isspace():
-            continue
+                chiphertext += chr(a+shift)
         else:
             chiphertext += plaintext[i]
     return chiphertext
@@ -43,8 +41,8 @@ def decrypt_caesar(chiphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    plaintext = ''
-    for i in range (len(chiphertext)):
+    plaintext = ""
+    for i in range(len(chiphertext)):
         if chiphertext[i].isalpha():
             a = ord(chiphertext[i])
             if chiphertext[i].isupper() and a <= 67:
