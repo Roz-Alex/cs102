@@ -13,7 +13,14 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
+    if n == 2 or n == 3:
+        return True
+    if n % 2 == 0:
+        return False
+    d = 3
+    while d**2 <= n and n % d != 0:
+        d += 2
+    return d**2 > n
     pass
 
 

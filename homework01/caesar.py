@@ -45,12 +45,12 @@ def decrypt_caesar(chiphertext: str, shift: int = 3) -> str:
     for i in range(len(chiphertext)):
         if chiphertext[i].isalpha():
             a = ord(chiphertext[i])
-            if chiphertext[i].isupper() and a <= 67:
-                plaintext += chr(a+23)
-            elif chiphertext[i].islower() and a <= 99:
-                plaintext += chr(a+23)
+            if chiphertext[i].isupper() and a <= 64+shift:
+                plaintext += chr(a+26-shift)
+            elif chiphertext[i].islower() and a <= 96+shift:
+                plaintext += chr(a+26-shift)
             else:
-                plaintext += chr(a-3)
+                plaintext += chr(a-shift)
         elif chiphertext.isspace():
             continue
         else:
