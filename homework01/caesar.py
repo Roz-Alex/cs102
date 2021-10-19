@@ -18,15 +18,16 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     for i in range(len(plaintext)):
         if plaintext[i].isalpha():
             a = ord(plaintext[i])
-            if plaintext[i].isupper() and a >= 91-shift:
-                chiphertext += chr(a-26+shift)
-            elif plaintext[i].islower() and a >= 123-shift:
-                chiphertext += chr(a-26+shift)
+            if plaintext[i].isupper() and a >= 91 - shift:
+                chiphertext += chr(a - 26 + shift)
+            elif plaintext[i].islower() and a >= 123 - shift:
+                chiphertext += chr(a - 26 + shift)
             else:
-                chiphertext += chr(a+shift)
+                chiphertext += chr(a + shift)
         else:
             chiphertext += plaintext[i]
     return chiphertext
+
 
 def decrypt_caesar(chiphertext: str, shift: int = 3) -> str:
     """
@@ -45,17 +46,18 @@ def decrypt_caesar(chiphertext: str, shift: int = 3) -> str:
     for i in range(len(chiphertext)):
         if chiphertext[i].isalpha():
             a = ord(chiphertext[i])
-            if chiphertext[i].isupper() and a <= 64+shift:
-                plaintext += chr(a+26-shift)
-            elif chiphertext[i].islower() and a <= 96+shift:
-                plaintext += chr(a+26-shift)
+            if chiphertext[i].isupper() and a <= 64 + shift:
+                plaintext += chr(a + 26 - shift)
+            elif chiphertext[i].islower() and a <= 96 + shift:
+                plaintext += chr(a + 26 - shift)
             else:
-                plaintext += chr(a-shift)
+                plaintext += chr(a - shift)
         elif chiphertext.isspace():
             continue
         else:
             plaintext += chiphertext[i]
     return plaintext
+
 
 def caesar_breaker_brute_force(chiphertext: str, dictionary: tp.Set[str]) -> int:
     """
