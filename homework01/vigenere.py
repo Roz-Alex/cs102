@@ -1,5 +1,5 @@
-'''importing sth'''
-#import typing as tp
+"""importing sth"""
+# import typing as tp
 
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:

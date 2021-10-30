@@ -1,4 +1,4 @@
-'''importing random'''
+"""importing random"""
 import random
 import typing as tp
 
@@ -24,10 +24,10 @@ def is_prime(n_n: int) -> bool:
     while d_d ** 2 <= n_n and n_n % d_d != 0:
         d_d += 2
     return d_d ** 2 > n_n
-    #pass
+    # pass
 
 
-#print (is_prime(1))
+# print (is_prime(1))
 
 
 def gcd(a_a: int, b_b: int) -> int:
@@ -45,7 +45,7 @@ def gcd(a_a: int, b_b: int) -> int:
         else:
             b_b = b_b % a_a
     return a_a + b_b
-    #pass
+    # pass
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -65,14 +65,14 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         y, yy = yy, y - yy * q
     k = x % w
     return k
-    #pass
+    # pass
 
 
 # print(multiplicative_inverse(7, 40))
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
-    '''test'''
+    """test"""
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
@@ -102,7 +102,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
-    '''aaaaaaa'''
+    """aaaaaaa"""
     # Unpack the key into it's components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
@@ -113,7 +113,7 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
-    '''pylint отстой!!!'''
+    """pylint отстой!!!"""
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m

@@ -1,8 +1,8 @@
-'''importing sth'''
+"""importing sth"""
 import typing as tp
 
 
-#comment to change sth
+# comment to change sth
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -17,7 +17,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     chiphertext = ""
-    for i, _ in enumerate(plaintext) :
+    for i, _ in enumerate(plaintext):
         if plaintext[i].isalpha():
             a_a = ord(plaintext[i])
             if plaintext[i].isupper() and a_a >= 91 - shift:
