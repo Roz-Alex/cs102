@@ -3,7 +3,7 @@ import typing as tp
 
 T = tp.TypeVar("T")
 
-
+#test
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """ Прочитать Судоку из указанного файла """
     path = pathlib.Path(path)
