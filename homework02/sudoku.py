@@ -208,7 +208,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
             if solve(grid):
                 return grid
             grid[n][m] = "."
-        return None       
+        return None
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
@@ -282,7 +282,7 @@ def check_check(grid):
                 count += 1
     return count
 """
-'''
+"""
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
         grid = read_sudoku(fname)
@@ -293,7 +293,7 @@ if __name__ == "__main__":
             print(f"Puzzle {fname} can't be solved")
         else:
             display(solution)
-'''
+"""
 
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
@@ -304,4 +304,3 @@ if __name__ == "__main__":
             print(f"Puzzle {fname} can't be solved")
         else:
             display(solution)
-            
