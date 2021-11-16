@@ -1,5 +1,6 @@
 import pathlib
 import typing as tp
+import random
 
 T = tp.TypeVar("T")
 
@@ -241,9 +242,33 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
-
-
+    grid, nums = [[]], []
+    for i in range(1, 10):
+        nums.append(str(i))
+    for j in range(9):
+        grid[0].append(random.choice(nums))
+        nums.remove(grid[0][j])
+    for q in range(1, 9):
+        grid.append([])
+        for w in range(9):
+            grid[q].append('.')
+    solve(grid)
+    n = 81
+    while n != N:
+        a, b = random.randint(0, 8), random.randint(0, 8)
+        if grid[a][b] != '.':
+            grid[a][b] = '.'  
+            n -= 1
+    return grid
+'''
+def check_check(grid):
+    count = 0
+    for i in range(9):
+        for j in range(9):
+            if grid[i][j] == '.':
+                count += 1
+    return count
+'''
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
         grid = read_sudoku(fname)
@@ -254,6 +279,8 @@ if __name__ == "__main__":
             print(f"Puzzle {fname} can't be solved")
         else:
             display(solution)
+
+
 '''
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
