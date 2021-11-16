@@ -1,6 +1,7 @@
 import pathlib
 import random
 import typing as tp
+from typing import List
 
 T = tp.TypeVar("T")
 
@@ -140,7 +141,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
 
 def find_empty_positions(
     grid: tp.List[tp.List[str]],
-) -> tp.Optional[tp.Tuple[int, int]]:
+) -> tp.Tuple[int, int]:
     """Найти первую свободную позицию в пазле
 
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
@@ -152,6 +153,8 @@ def find_empty_positions(
     """
     i = 0
     j = 0
+    k = 10
+    l = 10
     while grid[i][j] != ".":
         if j < len(grid[0]) - 1:
             j += 1
@@ -159,8 +162,8 @@ def find_empty_positions(
             j = 0
             i += 1
         if i == (len(grid)):
-            return (10, 10)
-    return (i, j)
+            return k, l
+    return i, j
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -202,10 +205,14 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         return grid
     else:
         n, m = find_empty_positions(grid)
+        """
+        if n == None or m == None:
+            print('here')
+        """
         ans = find_possible_values(grid, pos)
         for i in ans:
             grid[n][m] = str(i)
-            if solve(grid):
+            if solve(grid) is not None:
                 return grid
             grid[n][m] = "."
         return None
@@ -219,13 +226,12 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             col = get_col(solution, (i, j))
             row = get_row(solution, (i, j))
             block = get_block(solution, (i, j))
-            b = []
+            b: List[str] = []
             for c in block:
                 b.extend(c)
             if len(set(col)) == len(col) and len(set(row)) == len(row) and len(set(c)) == len(c):
                 return True
-            else:
-                return False
+    return False
 
 
 # print(check_solution())
@@ -253,7 +259,8 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    grid, nums = [[]], []
+    grid: List[List[str]] = [[]]
+    nums = []
     for i in range(1, 10):
         nums.append(str(i))
     for j in range(9):
@@ -281,18 +288,6 @@ def check_check(grid):
             if grid[i][j] == '.':
                 count += 1
     return count
-"""
-"""
-if __name__ == "__main__":
-    for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
-        grid = read_sudoku(fname)
-        display(grid)
-        if solve(grid):
-            solution = grid
-        if not solution:
-            print(f"Puzzle {fname} can't be solved")
-        else:
-            display(solution)
 """
 
 if __name__ == "__main__":
