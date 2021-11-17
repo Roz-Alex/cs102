@@ -25,7 +25,11 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
+        print(
+            "".join(
+                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
+            )
+        )
         if str(row) in "25":
             print(line)
     print()
@@ -43,12 +47,12 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     ans = []
     for i in range(0, len(values), n):
         arr = []
-        #j = 0
+        # j = 0
         for j in range(n):
-        #while j != n:
+            # while j != n:
             q = i
             arr.append(values[q + j])
-            #j += 1
+            # j += 1
         ans.append(arr)
     return ans
 
@@ -224,7 +228,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             if solution[i][j] == ".":
                 check = 0
                 break
-            if i %3 == 0 or i == 0:
+            if i % 3 == 0 or i == 0:
                 col = get_col(solution, (i, j))
                 row = get_row(solution, (i, j))
                 block = get_block(solution, (i, j))
@@ -243,6 +247,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     if check == 1:
         return True
     return False
+
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
@@ -289,6 +294,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
                 n -= 1
         return grid
 
+
 """
 def check_check(grid):
     count = 0
@@ -303,7 +309,6 @@ if __name__ == "__main__":
         grid = read_sudoku(fname)
         display(grid)
         solution = solve(grid)
-        print(check_solution(solution))
         if not solution:
             print(f"Puzzle {fname} can't be solved")
         else:
