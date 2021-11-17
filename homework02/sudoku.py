@@ -25,11 +25,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -47,11 +43,12 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     ans = []
     for i in range(0, len(values), n):
         arr = []
-        j = 0
-        while j != n:
+        #j = 0
+        for j in range(n):
+        #while j != n:
             q = i
             arr.append(values[q + j])
-            j += 1
+            #j += 1
         ans.append(arr)
     return ans
 
@@ -221,21 +218,31 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
-    for i in range(0, 7, 3):
-        for j in range(0, 9, 1):
-            col = get_col(solution, (i, j))
-            row = get_row(solution, (i, j))
-            block = get_block(solution, (i, j))
-            b: List[str] = []
-            for c in block:
-                b.extend(c)
-            if len(set(col)) == len(col) and len(set(row)) == len(row) and len(set(c)) == len(c):
-                return True
+    check = 0
+    for i in range(0, 9):
+        for j in range(0, 9):
+            if solution[i][j] == ".":
+                check = 0
+                break
+            if i %3 == 0 or i == 0:
+                col = get_col(solution, (i, j))
+                row = get_row(solution, (i, j))
+                block = get_block(solution, (i, j))
+                b: List[str] = []
+                for c in block:
+                    b.extend(c)
+                setcol = set(col)
+                setrow = set(row)
+                setb = set(b)
+                if len(setcol) == len(col) and len(setrow) == len(row) and len(setb) == len(b):
+                    check = 1
+                if check == 1:
+                    continue
+                else:
+                    break
+    if check == 1:
+        return True
     return False
-
-
-# print(check_solution())
-
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
@@ -272,13 +279,15 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
             grid[q].append(".")
     solve(grid)
     n = 81
-    while n != N:
-        a, b = random.randint(0, 8), random.randint(0, 8)
-        if grid[a][b] != ".":
-            grid[a][b] = "."
-            n -= 1
-    return grid
-
+    if N > 81:
+        return grid
+    else:
+        while n != N:
+            a, b = random.randint(0, 8), random.randint(0, 8)
+            if grid[a][b] != ".":
+                grid[a][b] = "."
+                n -= 1
+        return grid
 
 """
 def check_check(grid):
@@ -289,12 +298,12 @@ def check_check(grid):
                 count += 1
     return count
 """
-
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
         grid = read_sudoku(fname)
         display(grid)
         solution = solve(grid)
+        print(check_solution(solution))
         if not solution:
             print(f"Puzzle {fname} can't be solved")
         else:
