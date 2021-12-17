@@ -18,7 +18,7 @@ def remove_wall(
     :param coord:
     :return:
     """
-    # check
+    # check check
     x, y = coord[0], coord[1]
     grid[x][y] = " "
     return grid
@@ -261,7 +261,7 @@ if __name__ == "__main__":
     MAZE = add_path_to_grid(MAZE, PATH)
     print(pd.DataFrame(MAZE))
     '''
-    print(pd.DataFrame(bin_tree_maze(15, 15)))
+    #print(pd.DataFrame(bin_tree_maze(15, 15)))
     GRID = bin_tree_maze(15, 15)
     print(pd.DataFrame(GRID))
     _, PATH = solve_maze(GRID)
