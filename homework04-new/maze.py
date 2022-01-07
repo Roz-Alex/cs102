@@ -4,6 +4,8 @@ from typing import List, Optional, Tuple, Union
 
 import pandas as pd
 
+"""its a panda!"""
+
 
 def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
     return [["■"] * cols for _ in range(rows)]
@@ -98,7 +100,7 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
         x, y = possibles[j][0], possibles[j][1]
         if grid[x][y] == "X" and (x, y) not in exits:
             exits.append((x, y))
-    #print(exits)
+    # print(exits)
     return exits
 
 
@@ -135,9 +137,8 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     return grid
 
 
-def shortest_path(
-    grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]
-) -> Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]:
+def shortest_path(grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]):
+    # -> Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]:
     """
 
     :param grid:
@@ -146,7 +147,7 @@ def shortest_path(
     """
     a, b = exit_coord[0], exit_coord[1]
     ex = grid[a][b]
-    k = grid[a][b] - 1
+    k = int(grid[a][b]) - 1
     dawae = []
     current = a, b
     dawae.append(current)
@@ -178,7 +179,8 @@ def shortest_path(
     return grid, dawae
 
 
-def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> bool:
+# List[List[Union[str, int]]] : Tuple[int, int]
+def encircled_exit(grid, coord) -> bool:
     """
 
     :param grid:
@@ -205,9 +207,11 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     return False
 
 
+# : List[List[Union[str, int]]]
 def solve_maze(
-    grid: List[List[Union[str, int]]],
-) -> Tuple[List[List[Union[str, int]]], Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]]:
+    grid,
+):
+    # -> Tuple[List[List[Union[str, int]]], Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]]:
     """
 
     :param grid:
@@ -216,14 +220,14 @@ def solve_maze(
 
     exits = get_exits(grid)
     if len(exits) != 2:
-        return None
+        return grid, None
     # print(exits)
     x, y = exits[0][0], exits[0][1]
     a, b = exits[1][0], exits[1][1]
     if encircled_exit(grid, (x, y)):
-        return None
+        return grid, None
     if encircled_exit(grid, (a, b)):
-        return None
+        return grid, None
     k = 1
     grid[x][y], grid[a][b] = 1, 0
     while grid[a][b] == 0:
@@ -254,14 +258,14 @@ def add_path_to_grid(
 
 
 if __name__ == "__main__":
-    '''
+    """
     GRID = bin_tree_maze(15, 15)
     print(pd.DataFrame(GRID))
     MAZE, PATH = solve_maze(GRID)
     MAZE = add_path_to_grid(MAZE, PATH)
     print(pd.DataFrame(MAZE))
-    '''
-    #print(pd.DataFrame(bin_tree_maze(15, 15)))
+    """
+    # print(pd.DataFrame(bin_tree_maze(15, 15)))
     GRID = bin_tree_maze(15, 15)
     print(pd.DataFrame(GRID))
     _, PATH = solve_maze(GRID)
