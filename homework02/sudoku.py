@@ -82,11 +82,11 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     ['3', '6', '9']
     """
     row, col = pos
-    '''
+    """
     ans = []
     for i in range(len(grid)):
         ans.append(grid[i][col])
-    '''
+    """
     ans = [x[col] for x in grid]
     return ans
 
