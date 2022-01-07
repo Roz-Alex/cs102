@@ -15,7 +15,7 @@ def is_prime(n_n: int) -> bool:
     False
     """
     if n_n < 0:
-    	return False
+        return False
     if n_n == 2:
         return True
     elif n_n == 1:
