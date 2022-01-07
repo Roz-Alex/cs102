@@ -82,9 +82,12 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     ['3', '6', '9']
     """
     row, col = pos
+    '''
     ans = []
     for i in range(len(grid)):
         ans.append(grid[i][col])
+    '''
+    ans = [x[col] for x in grid]
     return ans
 
 
@@ -206,10 +209,6 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         return grid
     else:
         n, m = find_empty_positions(grid)
-        """
-        if n == None or m == None:
-            print('here')
-        """
         ans = find_possible_values(grid, pos)
         for i in ans:
             grid[n][m] = str(i)
@@ -294,16 +293,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
                 n -= 1
         return grid
 
-
-"""
-def check_check(grid):
-    count = 0
-    for i in range(9):
-        for j in range(9):
-            if grid[i][j] == '.':
-                count += 1
-    return count
-"""
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
         grid = read_sudoku(fname)
