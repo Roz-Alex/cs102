@@ -82,11 +82,6 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     ['3', '6', '9']
     """
     row, col = pos
-    """
-    ans = []
-    for i in range(len(grid)):
-        ans.append(grid[i][col])
-    """
     ans = [x[col] for x in grid]
     return ans
 
@@ -181,14 +176,14 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    ans = []
-    col = get_col(grid, pos)
-    row = get_row(grid, pos)
-    block = get_block(grid, pos)
+    ans = set()
+    col = set(get_col(grid, pos))
+    row = set(get_row(grid, pos))
+    block = set(get_block(grid, pos))
     for i in range(1, 10):
-        if str(i) not in col and str(i) not in row and str(i) not in block:
-            ans.append(str(i))
-    return set(ans)
+        if str(i) not in col | row | block:
+            ans.add(str(i))
+    return ans
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
