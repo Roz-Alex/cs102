@@ -18,7 +18,7 @@ def remove_wall(
     :param coord:
     :return:
     """
-    # check
+    # checkk
     x, y = coord[0], coord[1]
     grid[x][y] = " "
     return grid
@@ -98,7 +98,6 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
         x, y = possibles[j][0], possibles[j][1]
         if grid[x][y] == "X" and (x, y) not in exits:
             exits.append((x, y))
-    #print(exits)
     return exits
 
 
@@ -137,7 +136,7 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
 
 def shortest_path(
     grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]
-) -> Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]:
+):
     """
 
     :param grid:
@@ -146,7 +145,7 @@ def shortest_path(
     """
     a, b = exit_coord[0], exit_coord[1]
     ex = grid[a][b]
-    k = grid[a][b] - 1
+    k = int(grid[a][b]) - 1
     dawae = []
     current = a, b
     dawae.append(current)
@@ -207,7 +206,7 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
 
 def solve_maze(
     grid: List[List[Union[str, int]]],
-) -> Tuple[List[List[Union[str, int]]], Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]]:
+):
     """
 
     :param grid:
@@ -217,7 +216,6 @@ def solve_maze(
     exits = get_exits(grid)
     if len(exits) != 2:
         return None
-    # print(exits)
     x, y = exits[0][0], exits[0][1]
     a, b = exits[1][0], exits[1][1]
     if encircled_exit(grid, (x, y)):
@@ -234,7 +232,8 @@ def solve_maze(
 
 
 def add_path_to_grid(
-    grid: List[List[Union[str, int]]], path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
+    grid: List[List[Union[str, int]]],
+    path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]],
 ) -> List[List[Union[str, int]]]:
     """
 
@@ -254,13 +253,6 @@ def add_path_to_grid(
 
 
 if __name__ == "__main__":
-    '''
-    GRID = bin_tree_maze(15, 15)
-    print(pd.DataFrame(GRID))
-    MAZE, PATH = solve_maze(GRID)
-    MAZE = add_path_to_grid(MAZE, PATH)
-    print(pd.DataFrame(MAZE))
-    '''
     print(pd.DataFrame(bin_tree_maze(15, 15)))
     GRID = bin_tree_maze(15, 15)
     print(pd.DataFrame(GRID))
