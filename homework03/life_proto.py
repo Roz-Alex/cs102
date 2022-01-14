@@ -1,5 +1,6 @@
 import random
 import typing as tp
+import copy
 
 import pygame
 from pygame.locals import *
@@ -152,7 +153,7 @@ class GameOfLife:
         out : Grid
             Новое поколение клеток.
         """
-        newgrid = self.grid.copy()
+        newgrid = copy.deepcopy(self.grid)
         for i in range(len(self.grid)):
             for j in range(len(self.grid[0])):
                 n = sum(self.get_neighbours((i, j)))

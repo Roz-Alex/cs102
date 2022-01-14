@@ -1,6 +1,8 @@
 import pathlib
 import random
 import typing as tp
+from typing import List
+import copy
 
 import pygame
 from pygame.locals import *
@@ -11,6 +13,7 @@ Grid = tp.List[Cells]
 
 
 class GameOfLife:
+
     def __init__(
         self,
         size: tp.Tuple[int, int],
@@ -36,7 +39,7 @@ class GameOfLife:
     def get_neighbours(self, cell: Cell) -> Cells:
         y, x = cell
         ans = []
-        if 0 < x < len(self. curr_generation[0]) - 1 and 0 < y < len(self.curr_generation) - 1:
+        if 0 < x < len(self.curr_generation[0]) - 1 and 0 < y < len(self.curr_generation) - 1:
             for i in (-1, 0, 1):
                 for j in (-1, 0, 1):
                     ans.append(self.curr_generation[y + i][x + j])
@@ -64,7 +67,7 @@ class GameOfLife:
         return ans
 
     def get_next_generation(self) -> Grid:
-        newgrid = self.curr_generation.copy()
+        newgrid = copy.deepcopy(self.curr_generation)
         for i in range(len(self.curr_generation)):
             for j in range(len(self.curr_generation[0])):
                 n = sum(self.get_neighbours((i, j)))
@@ -84,9 +87,8 @@ class GameOfLife:
         """
         Выполнить один шаг игры.
         """
-        self.prev_generation = self.curr_generation
-        new = self.get_next_generation()
-        self.curr_generation = new
+        self.prev_generation = copy.deepcopy(self.curr_generation)
+        self.curr_generation = self.get_next_generation()
         self.generations += 1
 
     @property
@@ -130,10 +132,8 @@ class GameOfLife:
         Сохранить текущее состояние клеток в указанный файл.
         """
         with open(f"{filename}", 'w') as file:
-            for i in range(len(self.grid)):
+            for i in range(len(self.curr_generation)):
                 row = ""
-                for j in range(len(self.grid)):
-                    row += str(self.grid[i][j])
+                for j in range(len(self.curr_generation)):
+                    row += str(self.curr_generation[i][j])
                 file.write(row)
-
-
