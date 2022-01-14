@@ -204,4 +204,3 @@ class GameOfLife:
                     else:
                         newgrid[i][j] = 0
         return newgrid
-
