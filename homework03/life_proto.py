@@ -1,6 +1,6 @@
+import copy
 import random
 import typing as tp
-import copy
 
 import pygame
 from pygame.locals import *
@@ -86,16 +86,24 @@ class GameOfLife:
         out : Grid
             Матрица клеток размером `cell_height` х `cell_width`.
         """
-        grid = [[random.randint(0, 1) if randomize else 0 for j in range(self.cell_width)] for i in range(self.cell_height)]
+        grid = [
+            [random.randint(0, 1) if randomize else 0 for j in range(self.cell_width)]
+            for i in range(self.cell_height)
+        ]
         return grid
+
     def draw_grid(self) -> None:
         """
         Отрисовка списка клеток с закрашиванием их в соответствующе цвета.
         """
         for i in range(len(self.grid)):
             for j in range(len(self.grid[0])):
-                rect = (j*self.cell_size, i*self.cell_size, self.cell_size, self.cell_size)
-                pygame.draw.rect(self.screen, pygame.Color('green') if self.grid[i][j] == 1 else pygame.Color('white'), rect)
+                rect = (j * self.cell_size, i * self.cell_size, self.cell_size, self.cell_size)
+                pygame.draw.rect(
+                    self.screen,
+                    pygame.Color("green") if self.grid[i][j] == 1 else pygame.Color("white"),
+                    rect,
+                )
 
     def get_neighbours(self, cell: Cell) -> Cells:
         """
@@ -131,17 +139,37 @@ class GameOfLife:
         if x == len(self.grid[0]) - 1 and y == len(self.grid) - 1:  # lower right
             ans = [self.grid[y][x - 1], self.grid[y - 1][x], self.grid[y - 1][x - 1]]
         if x == 0 and 0 < y < len(self.grid) - 1:  # left side
-            ans = [self.grid[y][x + 1], self.grid[y + 1][x], self.grid[y + 1][x + 1], self.grid[y-1][x],
-                   self.grid[y - 1][x + 1]]
+            ans = [
+                self.grid[y][x + 1],
+                self.grid[y + 1][x],
+                self.grid[y + 1][x + 1],
+                self.grid[y - 1][x],
+                self.grid[y - 1][x + 1],
+            ]
         if x == len(self.grid[0]) - 1 and 0 < y < len(self.grid) - 1:  # right side
-            ans = [self.grid[y][x - 1], self.grid[y + 1][x], self.grid[y + 1][x - 1], self.grid[y - 1][x],
-                   self.grid[y - 1][x - 1]]
+            ans = [
+                self.grid[y][x - 1],
+                self.grid[y + 1][x],
+                self.grid[y + 1][x - 1],
+                self.grid[y - 1][x],
+                self.grid[y - 1][x - 1],
+            ]
         if 0 < x < len(self.grid[0]) - 1 and y == 0:  # upper side
-            ans = [self.grid[y][x + 1], self.grid[y + 1][x], self.grid[y + 1][x + 1], self.grid[y][x - 1],
-                   self.grid[y + 1][x - 1]]
+            ans = [
+                self.grid[y][x + 1],
+                self.grid[y + 1][x],
+                self.grid[y + 1][x + 1],
+                self.grid[y][x - 1],
+                self.grid[y + 1][x - 1],
+            ]
         if 0 < x < len(self.grid[0]) - 1 and y == len(self.grid) - 1:  # lower side
-            ans = [self.grid[y][x + 1], self.grid[y - 1][x], self.grid[y - 1][x + 1], self.grid[y][x - 1],
-                   self.grid[y - 1][x - 1]]
+            ans = [
+                self.grid[y][x + 1],
+                self.grid[y - 1][x],
+                self.grid[y - 1][x + 1],
+                self.grid[y][x - 1],
+                self.grid[y - 1][x - 1],
+            ]
         return ans
 
     def get_next_generation(self) -> Grid:
@@ -169,6 +197,8 @@ class GameOfLife:
                         newgrid[i][j] = 0
         return newgrid
 
+
 from pprint import pprint as pp
+
 game = GameOfLife(320, 240, 40, 1)
 game.run()

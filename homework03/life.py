@@ -1,8 +1,8 @@
+import copy
 import pathlib
 import random
 import typing as tp
 from typing import List
-import copy
 
 import pygame
 from pygame.locals import *
@@ -13,7 +13,6 @@ Grid = tp.List[Cells]
 
 
 class GameOfLife:
-
     def __init__(
         self,
         size: tp.Tuple[int, int],
@@ -32,8 +31,10 @@ class GameOfLife:
         self.generations = 1
 
     def create_grid(self, randomize: bool = False) -> Grid:
-        grid = [[random.randint(0, 1) if randomize else 0 for j in range(self.cols)] for i in
-                range(self.rows)]
+        grid = [
+            [random.randint(0, 1) if randomize else 0 for j in range(self.cols)]
+            for i in range(self.rows)
+        ]
         return grid
 
     def get_neighbours(self, cell: Cell) -> Cells:
@@ -45,25 +46,67 @@ class GameOfLife:
                     ans.append(self.curr_generation[y + i][x + j])
             del ans[4]
         if x == 0 and y == 0:  # upper left
-            ans = [self.curr_generation[y][x + 1], self.curr_generation[y + 1][x], self.curr_generation[y + 1][x + 1]]
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x + 1],
+            ]
         if x == 0 and y == len(self.curr_generation) - 1:  # lower left
-            ans = [self.curr_generation[y][x + 1], self.curr_generation[y - 1][x], self.curr_generation[y - 1][x + 1]]
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x + 1],
+            ]
         if x == len(self.curr_generation[0]) - 1 and y == 0:  # upper right
-            ans = [self.curr_generation[y][x - 1], self.curr_generation[y + 1][x], self.curr_generation[y + 1][x - 1]]
-        if x == len(self.curr_generation[0]) - 1 and y == len(self.curr_generation) - 1:  # lower right
-            ans = [self.curr_generation[y][x - 1], self.curr_generation[y - 1][x], self.curr_generation[y - 1][x - 1]]
+            ans = [
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x - 1],
+            ]
+        if (
+            x == len(self.curr_generation[0]) - 1 and y == len(self.curr_generation) - 1
+        ):  # lower right
+            ans = [
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x - 1],
+            ]
         if x == 0 and 0 < y < len(self.curr_generation) - 1:  # left side
-            ans = [self.curr_generation[y][x + 1], self.curr_generation[y + 1][x], self.curr_generation[y + 1][x + 1], self.curr_generation[y-1][x],
-                   self.curr_generation[y - 1][x + 1]]
-        if x == len(self.curr_generation[0]) - 1 and 0 < y < len(self.curr_generation) - 1:  # right side
-            ans = [self.curr_generation[y][x - 1], self.curr_generation[y + 1][x], self.curr_generation[y + 1][x - 1], self.curr_generation[y - 1][x],
-                   self.curr_generation[y - 1][x - 1]]
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x + 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x + 1],
+            ]
+        if (
+            x == len(self.curr_generation[0]) - 1 and 0 < y < len(self.curr_generation) - 1
+        ):  # right side
+            ans = [
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x - 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x - 1],
+            ]
         if 0 < x < len(self.curr_generation[0]) - 1 and y == 0:  # upper side
-            ans = [self.curr_generation[y][x + 1], self.curr_generation[y + 1][x], self.curr_generation[y + 1][x + 1], self.curr_generation[y][x - 1],
-                   self.curr_generation[y + 1][x - 1]]
-        if 0 < x < len(self.curr_generation[0]) - 1 and y == len(self.curr_generation) - 1:  # lower side
-            ans = [self.curr_generation[y][x + 1], self.curr_generation[y - 1][x], self.curr_generation[y - 1][x + 1], self.curr_generation[y][x - 1],
-                   self.curr_generation[y - 1][x - 1]]
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x + 1],
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y + 1][x - 1],
+            ]
+        if (
+            0 < x < len(self.curr_generation[0]) - 1 and y == len(self.curr_generation) - 1
+        ):  # lower side
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x + 1],
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y - 1][x - 1],
+            ]
         return ans
 
     def get_next_generation(self) -> Grid:
@@ -126,12 +169,11 @@ class GameOfLife:
         game.curr_generation = grid
         return game
 
-
     def save(self, filename: pathlib.Path) -> None:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
-        with open(f"{filename}", 'w') as file:
+        with open(f"{filename}", "w") as file:
             for i in range(len(self.curr_generation)):
                 row = ""
                 for j in range(len(self.curr_generation)):

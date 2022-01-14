@@ -18,7 +18,7 @@ class Console(UI):
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 cell = "*" if grid[i][j] == 1 else " "
-                screen.addch(i+1, j+1, cell)
+                screen.addch(i + 1, j + 1, cell)
 
     def run(self) -> None:
         screen = curses.initscr()
@@ -30,6 +30,7 @@ class Console(UI):
             screen.refresh()
             curses.napms(1000)
         curses.endwin()
+
 
 life = GameOfLife((24, 80), max_generations=50)
 ui = Console(life)
