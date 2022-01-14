@@ -40,7 +40,10 @@ class GameOfLife:
     def get_neighbours(self, cell: Cell) -> Cells:
         y, x = cell
         ans = []
-        if 0 < x < len(self.curr_generation[0]) - 1 and 0 < y < len(self.curr_generation) - 1:
+        if (
+            0 < x < len(self.curr_generation[0]) - 1
+            and 0 < y < len(self.curr_generation) - 1
+        ):
             for i in (-1, 0, 1):
                 for j in (-1, 0, 1):
                     ans.append(self.curr_generation[y + i][x + j])
@@ -80,7 +83,8 @@ class GameOfLife:
                 self.curr_generation[y - 1][x + 1],
             ]
         if (
-            x == len(self.curr_generation[0]) - 1 and 0 < y < len(self.curr_generation) - 1
+            x == len(self.curr_generation[0]) - 1
+            and 0 < y < len(self.curr_generation) - 1
         ):  # right side
             ans = [
                 self.curr_generation[y][x - 1],
@@ -98,7 +102,8 @@ class GameOfLife:
                 self.curr_generation[y + 1][x - 1],
             ]
         if (
-            0 < x < len(self.curr_generation[0]) - 1 and y == len(self.curr_generation) - 1
+            0 < x < len(self.curr_generation[0]) - 1
+            and y == len(self.curr_generation) - 1
         ):  # lower side
             ans = [
                 self.curr_generation[y][x + 1],
