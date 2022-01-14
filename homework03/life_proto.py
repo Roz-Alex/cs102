@@ -205,8 +205,3 @@ class GameOfLife:
                         newgrid[i][j] = 0
         return newgrid
 
-
-from pprint import pprint as pp
-
-game = GameOfLife(320, 240, 40, 1)
-game.run()
