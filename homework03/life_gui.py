@@ -28,7 +28,6 @@ class GUI(UI):
         # Первая отрисовка поля
         self.grid = [[]]
 
-
     def draw_lines(self) -> None:
         for x in range(0, self.width, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color("black"), (x, 0), (x, self.height))
@@ -70,11 +69,16 @@ class GUI(UI):
                 # click actions
                 elif event.type == pygame.MOUSEBUTTONUP:
                     x, y = event.pos
-                    x, y, = x // self.cell_size, y // self.cell_size
-                    self.life.curr_generation[y][x] = 0 if self.life.curr_generation[y][x] == 1 else 1
+                    x, y, = (
+                        x // self.cell_size,
+                        y // self.cell_size,
+                    )
+                    self.life.curr_generation[y][x] = (
+                        0 if self.life.curr_generation[y][x] == 1 else 1
+                    )
                     self.draw_grid()
                     pygame.display.flip()
-                #pause
+                # pause
                 elif event.type == pygame.KEYDOWN and event.key == K_BACKSPACE:
                     pause = not pause
             if pause:
