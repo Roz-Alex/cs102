@@ -1,3 +1,5 @@
+from typing import List, Any
+
 import pygame
 from life import GameOfLife
 from pygame.locals import *
@@ -5,6 +7,8 @@ from ui import UI
 
 
 class GUI(UI):
+    grid: List[List[Any]]
+
     def __init__(self, life: GameOfLife, cell_size: int = 10, speed: int = 10) -> None:
         super().__init__(life)
 
@@ -79,7 +83,7 @@ class GUI(UI):
                     self.draw_grid()
                     pygame.display.flip()
                 # pause
-                elif event.type == pygame.KEYDOWN and event.key == K_BACKSPACE:
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
                     pause = not pause
             if pause:
                 self.draw_grid()
