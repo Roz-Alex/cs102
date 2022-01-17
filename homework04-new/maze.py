@@ -21,8 +21,19 @@ def remove_wall(
     :return:
     """
     # check check
-    x, y = coord[0], coord[1]
-    grid[x][y] = " "
+    choize = ["up", "right"]
+    i, j = coord[0], coord[1]
+    direction = choice(choize)
+    if direction == "up":
+        if i == 1:
+             grid[i][j + 1] = " "
+        else:
+            grid[i - 1][j] = " "
+    else:
+        if j == len(grid) - 2:
+            grid[i - 1][j] = " "
+        else:
+            grid[i][j + 1] = " "
     return grid
 
 
@@ -52,23 +63,11 @@ def bin_tree_maze(
     # 3. перейти в следующую клетку, сносим между клетками стену
     # 4. повторять 2-3 до тех пор, пока не будут пройдены все клетки
 
-    choize = ["up", "right"]
-    for i in range(len(grid) - 2, 0, -2):
-        for j in range(1, len(grid[0]) - 1, 2):
-            if i == 1 and j == len(grid) - 2:
-                break
-            direction = choice(choize)
-            if direction == "up":
-                if i == 1:
-                    remove_wall(grid, (i, j + 1))
-                else:
-                    remove_wall(grid, (i - 1, j))
-            else:
-                if j == len(grid) - 2:
-                    remove_wall(grid, (i - 1, j))
-                else:
-                    remove_wall(grid, (i, j + 1))
+    for cell in empty_cells:
+        remove_wall(grid, cell)
 
+    if grid[1][len(grid) - 1] != "■":
+        grid[1][len(grid) - 1] = "■"
     # генерация входа и выхода
     if random_exit:
         x_in, x_out = randint(0, rows - 1), randint(0, rows - 1)
@@ -176,7 +175,7 @@ def shortest_path(grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]
         grid[x][y] = " "
         q, w = dawae[-2][0], dawae[-2][1]
         shortest_path(grid, (q, w))
-    return grid, dawae
+    return dawae
 
 
 # List[List[Union[str, int]]] : Tuple[int, int]
@@ -233,7 +232,7 @@ def solve_maze(
     while grid[a][b] == 0:
         make_step(grid, k)
         k += 1
-    grid, dawae = shortest_path(grid, (a, b))
+    dawae = shortest_path(grid, (a, b))
     return grid, dawae
 
 
@@ -256,15 +255,7 @@ def add_path_to_grid(
                     grid[i][j] = " "
     return grid
 
-
 if __name__ == "__main__":
-    """
-    GRID = bin_tree_maze(15, 15)
-    print(pd.DataFrame(GRID))
-    MAZE, PATH = solve_maze(GRID)
-    MAZE = add_path_to_grid(MAZE, PATH)
-    print(pd.DataFrame(MAZE))
-    """
     # print(pd.DataFrame(bin_tree_maze(15, 15)))
     GRID = bin_tree_maze(15, 15)
     print(pd.DataFrame(GRID))
