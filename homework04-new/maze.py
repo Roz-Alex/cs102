@@ -26,7 +26,7 @@ def remove_wall(
     direction = choice(choize)
     if direction == "up":
         if i == 1:
-             grid[i][j + 1] = " "
+            grid[i][j + 1] = " "
         else:
             grid[i - 1][j] = " "
     else:
@@ -254,6 +254,7 @@ def add_path_to_grid(
                 if str(grid[i][j]).isdigit():
                     grid[i][j] = " "
     return grid
+
 
 if __name__ == "__main__":
     # print(pd.DataFrame(bin_tree_maze(15, 15)))
