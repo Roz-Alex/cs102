@@ -14,8 +14,8 @@ class GUI(UI):
 
         self.cell_size = cell_size
 
-        self.width = self.life.rows * self.cell_size
-        self.height = self.life.cols * self.cell_size
+        self.width = self.life.cols * self.cell_size
+        self.height = self.life.rows * self.cell_size
 
         # Устанавливаем размер окна
         self.screen_size = self.width, self.height
