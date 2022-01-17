@@ -1,6 +1,8 @@
+import copy
 import pathlib
 import random
 import typing as tp
+from typing import List
 
 import pygame
 from pygame.locals import *
@@ -29,46 +31,151 @@ class GameOfLife:
         self.generations = 1
 
     def create_grid(self, randomize: bool = False) -> Grid:
-        # Copy from previous assignment
-        pass
+        grid = [
+            [random.randint(0, 1) if randomize else 0 for j in range(self.cols)]
+            for i in range(self.rows)
+        ]
+        return grid
 
     def get_neighbours(self, cell: Cell) -> Cells:
-        # Copy from previous assignment
-        pass
+        y, x = cell
+        ans = []
+        if 0 < x < len(self.curr_generation[0]) - 1 and 0 < y < len(self.curr_generation) - 1:
+            for i in (-1, 0, 1):
+                for j in (-1, 0, 1):
+                    ans.append(self.curr_generation[y + i][x + j])
+            del ans[4]
+        if x == 0 and y == 0:  # upper left
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x + 1],
+            ]
+        if x == 0 and y == len(self.curr_generation) - 1:  # lower left
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x + 1],
+            ]
+        if x == len(self.curr_generation[0]) - 1 and y == 0:  # upper right
+            ans = [
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x - 1],
+            ]
+        if (
+            x == len(self.curr_generation[0]) - 1 and y == len(self.curr_generation) - 1
+        ):  # lower right
+            ans = [
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x - 1],
+            ]
+        if x == 0 and 0 < y < len(self.curr_generation) - 1:  # left side
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x + 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x + 1],
+            ]
+        if (
+            x == len(self.curr_generation[0]) - 1 and 0 < y < len(self.curr_generation) - 1
+        ):  # right side
+            ans = [
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x - 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x - 1],
+            ]
+        if 0 < x < len(self.curr_generation[0]) - 1 and y == 0:  # upper side
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y + 1][x],
+                self.curr_generation[y + 1][x + 1],
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y + 1][x - 1],
+            ]
+        if (
+            0 < x < len(self.curr_generation[0]) - 1 and y == len(self.curr_generation) - 1
+        ):  # lower side
+            ans = [
+                self.curr_generation[y][x + 1],
+                self.curr_generation[y - 1][x],
+                self.curr_generation[y - 1][x + 1],
+                self.curr_generation[y][x - 1],
+                self.curr_generation[y - 1][x - 1],
+            ]
+        return ans
 
     def get_next_generation(self) -> Grid:
-        # Copy from previous assignment
-        pass
+        newgrid = copy.deepcopy(self.curr_generation)
+        for i in range(len(self.curr_generation)):
+            for j in range(len(self.curr_generation[0])):
+                n = sum(self.get_neighbours((i, j)))
+                if self.curr_generation[i][j] == 1:
+                    if n == 2 or n == 3:
+                        newgrid[i][j] = 1
+                    else:
+                        newgrid[i][j] = 0
+                else:
+                    if n == 3:
+                        newgrid[i][j] = 1
+                    else:
+                        newgrid[i][j] = 0
+        return newgrid
 
     def step(self) -> None:
         """
         Выполнить один шаг игры.
         """
-        pass
+        self.prev_generation = copy.deepcopy(self.curr_generation)
+        self.curr_generation = self.get_next_generation()
+        self.generations += 1
 
     @property
     def is_max_generations_exceeded(self) -> bool:
         """
         Не превысило ли текущее число поколений максимально допустимое.
         """
-        pass
+        if self.max_generations and self.generations >= self.max_generations:
+            return True
+        return False
 
     @property
     def is_changing(self) -> bool:
         """
         Изменилось ли состояние клеток с предыдущего шага.
         """
-        pass
+        if self.prev_generation != self.curr_generation:
+            return True
+        return False
 
     @staticmethod
     def from_file(filename: pathlib.Path) -> "GameOfLife":
         """
         Прочитать состояние клеток из указанного файла.
         """
-        pass
+        grid = []
+        with open(f"{filename}") as file:
+            lines = file.readlines()
+        for i in range(len(lines)):
+            row = []
+            for j in range(len(lines[0])):
+                row.append(int(lines[i][j]))
+            grid.append(row)
+        game = GameOfLife((len(grid), len(grid[0])))
+        game.curr_generation = grid
+        return game
 
     def save(self, filename: pathlib.Path) -> None:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
-        pass
+        with open(f"{filename}", "w") as file:
+            for i in range(len(self.curr_generation)):
+                row = ""
+                for j in range(len(self.curr_generation)):
+                    row += str(self.curr_generation[i][j])
+                file.write(row)
