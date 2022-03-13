@@ -18,7 +18,7 @@ def ego_network(
     :param user_id: Идентификатор пользователя, для которого строится граф друзей.
     :param friends: Идентификаторы друзей, между которыми устанавливаются связи.
     """
-    pass
+    friends = get_
 
 
 def plot_ego_network(net: tp.List[tp.Tuple[int, int]]) -> None:

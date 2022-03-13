@@ -66,8 +66,8 @@ def bin_tree_maze(
     for cell in empty_cells:
         remove_wall(grid, cell)
 
-    if grid[1][len(grid) - 1] != "■":
-        grid[1][len(grid) - 1] = "■"
+    if grid[1][len(grid[0]) - 1] != "■":
+        grid[1][len(grid[0]) - 1] = "■"
     # генерация входа и выхода
     if random_exit:
         x_in, x_out = randint(0, rows - 1), randint(0, rows - 1)
@@ -258,7 +258,7 @@ def add_path_to_grid(
 
 if __name__ == "__main__":
     # print(pd.DataFrame(bin_tree_maze(15, 15)))
-    GRID = bin_tree_maze(15, 15)
+    GRID = bin_tree_maze(15, 20)
     print(pd.DataFrame(GRID))
     _, PATH = solve_maze(GRID)
     MAZE = add_path_to_grid(GRID, PATH)

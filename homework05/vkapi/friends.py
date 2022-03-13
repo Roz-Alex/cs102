@@ -3,8 +3,9 @@ import math
 import time
 import typing as tp
 
-from vkapi import config, session
+from vkapi import config
 from vkapi.exceptions import APIError
+from vkapi.session import Session
 
 QueryParams = tp.Optional[tp.Dict[str, tp.Union[str, int]]]
 
@@ -28,7 +29,17 @@ def get_friends(
     :param fields: Список полей, которые нужно получить для каждого пользователя.
     :return: Список идентификаторов друзей пользователя или список пользователей.
     """
-    pass
+    domain = config.VK_CONFIG["domain"]
+    access_token = config.VK_CONFIG["access_token"]
+    v = config.VK_CONFIG["version"]
+    fields = ", ".join(fields) if fields else ""
+
+    base = f"{domain}"
+    url = f"friends.get?access_token={access_token}&user_id={user_id}&fields={fields}&offset={offset}&count={count}&v={v}"
+    s = Session(base)
+    r = s.get(url)
+    response = FriendsResponse(r.json()["response"]["count"], r.json()["response"]["items"])
+    return response
 
 
 class MutualFriends(tp.TypedDict):
@@ -57,4 +68,35 @@ def get_mutual(
     :param offset: Смещение, необходимое для выборки определенного подмножества общих друзей.
     :param progress: Callback для отображения прогресса.
     """
-    pass
+    domain = config.VK_CONFIG["domain"]
+    access_token = config.VK_CONFIG["access_token"]
+    v = config.VK_CONFIG["version"]
+
+    base = f"{domain}"
+    s = Session(base)
+    response = []
+
+    if target_uids is not None:
+        for i in range(math.floor(len(target_uids) / 100)):
+            try:
+                url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uids={','.join(list(map(str, target_uids)))}&count={count}&offset={i*100}&v={v}"
+                friends = s.get(url)
+                for friend in friends.json()["response"]:
+                    response.append(
+                        MutualFriends(
+                            id=friend["id"],
+                            common_friends=list(map(int, friend["common_friends"])),
+                            common_count=friend["common_count"],
+                        )
+                    )
+            except:
+                pass
+            time.sleep(0.34)
+        return response
+    try:
+        url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uid={target_uid}&count={count}&offset={offset}&v={v}"
+        friends = s.get(url)
+        response.extend(friends.json()["response"])
+    except:
+        pass
+    return response
