@@ -72,14 +72,14 @@ def get_mutual(
     access_token = config.VK_CONFIG["access_token"]
     v = config.VK_CONFIG["version"]
 
-    base = f"{domain}"
-    s = Session(base)
+    s = Session(domain)
     response = []
 
-    if target_uids is not None:
-        for i in range(math.floor(len(target_uids) / 100)):
+    if target_uids:
+        # for i in range(math.floor(len(target_uids) / 100)):
+        for i in range(((len(target_uids) - 1) // 100) + 1):
             try:
-                url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uids={','.join(list(map(str, target_uids)))}&count={count}&offset={i*100}&v={v}"
+                url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uid={target_uid}&target_uids={','.join(list(map(str, target_uids)))}&count={count}&offset={i*100}&v={v}"
                 friends = s.get(url)
                 for friend in friends.json()["response"]:
                     response.append(
