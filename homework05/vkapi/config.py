@@ -1,6 +1,7 @@
 # https://hackernoon.com/4-ways-to-manage-the-configuration-in-python-4623049e841b
-import requests as requests
 import time
+
+import requests as requests
 
 VK_CONFIG = {
     "domain": "https://api.vk.com/method",
