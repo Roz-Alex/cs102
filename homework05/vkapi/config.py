@@ -1,7 +1,7 @@
 # https://hackernoon.com/4-ways-to-manage-the-configuration-in-python-4623049e841b
 import time
 
-import requests as requests
+import requests as requests # type: ignore
 
 VK_CONFIG = {
     "domain": "https://api.vk.com/method",
