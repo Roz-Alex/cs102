@@ -31,7 +31,7 @@ class Session:
             errors.append(i)
 
         retry = Retry(
-            allowed_methods=["POST", "GET"],
+            method_whitelist=["POST", "GET"],
             total=max_retries,
             backoff_factor=backoff_factor,
             status_forcelist=errors,
