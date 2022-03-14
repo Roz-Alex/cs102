@@ -14,4 +14,16 @@ def age_predict(user_id: int) -> tp.Optional[float]:
     :param user_id: Идентификатор пользователя.
     :return: Медианный возраст пользователя.
     """
-    pass
+    items = get_friends(user_id, fields=["bdate"]).items
+    today = dt.datetime.now()
+    year = today.year
+    age = []
+    for i in items:
+        if "bdate" in i:  # type: ignore
+            if len(i["bdate"]) >= 9:  # type: ignore
+                age.append(year - int(i["bdate"][-4:]))  # type: ignore
+    if age:
+        av = statistics.mean(age)
+    else:
+        av = None
+    return av
