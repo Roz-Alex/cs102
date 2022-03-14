@@ -34,7 +34,7 @@ class Session:
             method_whitelist=["POST", "GET"],
             total=max_retries,
             backoff_factor=backoff_factor,
-            status_forcelist=errors,
+            status_forcelist=errors
         )
         adapter = HTTPAdapter(max_retries=retry)
         self.session.mount("https://", adapter)
@@ -53,5 +53,5 @@ class Session:
 
         if "timeout" in kwargs:
             self.timeout = kwargs["timeout"]
-        response = self.session.get(self.base_url + "/" + url, timeout=self.timeout)
+        response = self.session.post(self.base_url + "/" + url, timeout=self.timeout, *args, **kwargs)
         return response
