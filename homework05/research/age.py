@@ -22,6 +22,8 @@ def age_predict(user_id: int) -> tp.Optional[float]:
         if "bdate" in i:  # type: ignore
             if len(i["bdate"]) >= 9:  # type: ignore
                 age.append(year - int(i["bdate"][-4:]))  # type: ignore
-
-    av = statistics.mean(age)
+    if age:
+        av = statistics.mean(age)
+    else:
+        av = None
     return av
