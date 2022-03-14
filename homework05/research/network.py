@@ -20,8 +20,8 @@ def ego_network(
     cords = []
     frds = get_mutual(user_id, target_uids=friends)
     for friend in frds:
-        fr_id = friend["id"] # type: ignore
-        for person in friend["common_friends"]: # type: ignore
+        fr_id = friend["id"]  # type: ignore
+        for person in friend["common_friends"]:  # type: ignore
             cords.append((fr_id, person))
     return cords
 
