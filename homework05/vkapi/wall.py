@@ -10,7 +10,6 @@ from vkapi.exceptions import APIError
 from vkapi.session import Session
 
 
-
 def get_posts_2500(
     owner_id: str = "",
     domain: str = "",
@@ -51,9 +50,9 @@ def get_wall_execute(
     :param progress: Callback для отображения прогресса.
     """
 
-    token = config.VK_CONFIG['access_token']
-    v = config.VK_CONFIG['version']
-    s = Session(config.VK_CONFIG['domain'])
+    token = config.VK_CONFIG["access_token"]
+    v = config.VK_CONFIG["version"]
+    s = Session(config.VK_CONFIG["domain"])
     all_posts = []
     for q in range(((count - 1) // max_count) + 1):
         try:
@@ -63,11 +62,17 @@ def get_wall_execute(
                 "count":"$count","filter":"$filter","extended":$extended,"fields":'$fields',"v":$version})['items'];
                  i=i+1;} return {'count': posts.length, 'items': posts};"""
             ).substitute(
-                owner_id=owner_id if owner_id else 0, domain=domain, offset=offset + max_count * q,
+                owner_id=owner_id if owner_id else 0,
+                domain=domain,
+                offset=offset + max_count * q,
                 count=count - max_count * q if count - max_count * q < 101 else 100,
-                attempts=(count - max_count * q - 1) // 100 + 1 if count - max_count * q < max_count + 1
-                else max_count // 100, filter=filter, extended=extended,
-                fields=fields, version=str(v),
+                attempts=(count - max_count * q - 1) // 100 + 1
+                if count - max_count * q < max_count + 1
+                else max_count // 100,
+                filter=filter,
+                extended=extended,
+                fields=fields,
+                version=str(v),
             )
             posts = s.post(
                 "execute",
