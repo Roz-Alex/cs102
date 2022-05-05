@@ -33,10 +33,7 @@ def extract_news(parser):
                     ninf["url"] = "https://news.ycombinator.com/" + link
         else:
             if n.find("a").attrs:
-                if (
-                    "class" in n.find("a").attrs
-                    and n.find("a").attrs["class"][0] == "hnuser"
-                ):
+                if "class" in n.find("a").attrs and n.find("a").attrs["class"][0] == "hnuser":
                     ninf["author"] = n.find("a").string
                     ninf["points"] = int(n.find("span").string.split()[0])
                     com = str(n.findAll("a")[-1].string.split()[0])
@@ -52,13 +49,7 @@ def extract_news(parser):
 
 def extract_next_page(parser):
     """ Extract next page URL """
-    return (
-        parser.table.findAll("table")[1]
-        .findAll("tr")[-1]
-        .contents[2]
-        .find("a")
-        .get("href")
-    )
+    return parser.table.findAll("table")[1].findAll("tr")[-1].contents[2].find("a").get("href")
 
 
 def get_news(url, n_pages=1):
