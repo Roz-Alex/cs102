@@ -1,13 +1,14 @@
+import csv
+import random
 import string
 import typing as tp
 from collections import Counter, defaultdict
 from math import log
-import csv
-import random
+
 from db import News, session
 
-class NaiveBayesClassifier:
 
+class NaiveBayesClassifier:
     def __init__(self, alpha):
         self.alpha = alpha
         self.counters = defaultdict(lambda: defaultdict(int))
@@ -56,21 +57,22 @@ class NaiveBayesClassifier:
         results = self.predict(X_test)
         return sum(y_test[it] == results[it] for it in range(len(y_test))) / len(y_test)
 
+
 def clean(s):
     translator = str.maketrans("", "", string.punctuation)
     return s.translate(translator)
+
 
 def label_news():
     s = session()
     rows = s.query(News).filter(News.label == None).all()
     for row in rows:
-        row.label = random.choice(['good', 'maybe', 'never'])
+        row.label = random.choice(["good", "maybe", "never"])
         s.add(row)
         s.commit()
 
 
-
-if __name__=="__main__":
+if __name__ == "__main__":
     with open("data/SMSSpamCollection") as f:
         data = list(csv.reader(f, delimiter="\t"))
     X, y = [], []
@@ -78,9 +80,9 @@ if __name__=="__main__":
         X.append(msg)
         y.append(target)
     X = [clean(x).lower() for x in X]
-    print(X[0],"|||", y[0])
-    '''
+    print(X[0], "|||", y[0])
+    """
     X_train, y_train, X_test, y_test = X[:3900], y[:3900], X[3900:], y[3900:]
     model = NaiveBayesClassifier(1)
     model.fit(X_train, y_train)
-    '''
+    """
