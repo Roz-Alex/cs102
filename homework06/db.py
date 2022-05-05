@@ -31,7 +31,7 @@ engine = create_engine("sqlite:///news.db")
 session = sessionmaker(bind=engine)
 
 
-class News(Base):  # mypy: ignore
+class News(Base):  # mypy: ignore  # mypy: ignore
     __tablename__ = "news"
     id = Column(Integer, primary_key=True)
     title = Column(String)
