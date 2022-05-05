@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 from scraputils import get_news
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -31,7 +32,7 @@ engine = create_engine("sqlite:///news.db")
 session = sessionmaker(bind=engine)
 
 
-class News(Base):  # mypy: ignore  # mypy: ignore
+class News(Base):  # mypy: ignore all
     __tablename__ = "news"
     id = Column(Integer, primary_key=True)
     title = Column(String)
