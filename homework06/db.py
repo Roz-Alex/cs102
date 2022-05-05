@@ -38,8 +38,6 @@ class News(Base):
     label = Column(String)
 
 if __name__=="__main__":
-
-
     Base.metadata.create_all(bind=engine)
     url = "https://news.ycombinator.com/"
     news_list = get_news(url, n_pages=34)

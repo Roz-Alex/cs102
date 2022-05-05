@@ -1,10 +1,11 @@
+import sqlalchemy.exc
 from bottle import (
     route, run, template, request, redirect
 )
 
 from scraputils import get_news
-from db import News, session, create_db
-from bayes import NaiveBayesClassifier
+from db import News, session
+from bayes import NaiveBayesClassifier, label_news
 
 
 @route("/all")
@@ -34,16 +35,30 @@ def add_label():
 
 @route("/update")
 def update_news():
+    s = session()
     url = "https://news.ycombinator.com/"
     lst = get_news(url)
-    create_db(lst)
+    for dic in lst:
+        try:
+            row = s.query(News).filter(News.title == dic['title']).one()
+        except sqlalchemy.exc.NoResultFound:
+            new = News(
+                title=dic['title'],
+                author=dic['author'],
+                url=dic['url'],
+                comments=dic['comments'],
+                points=dic['points']
+            )
+            s.add(new)
+            s.commit()
     redirect("/news")
+
 
 
 @route("/classify")
 def classify_news():
-    # PUT YOUR CODE HERE
-    pass
+    label_news()
+    redirect("/news")
 
 
 if __name__ == "__main__":

@@ -70,8 +70,6 @@ if __name__=="__main__":
     url = "https://news.ycombinator.com/"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    with open('my.html', 'w') as f:
-        f.write(str(soup.prettify()))
     news_list = get_news(url, n_pages=1)
     for l in news_list:
         print(l)
