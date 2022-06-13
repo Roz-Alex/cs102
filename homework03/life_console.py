@@ -14,6 +14,7 @@ class Console(UI):
 
     def draw_grid(self, screen) -> None:
         """ Отобразить состояние клеток. """
+
         pass
 
     def run(self) -> None:

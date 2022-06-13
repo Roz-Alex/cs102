@@ -68,3 +68,5 @@ def caesar_breaker_brute_force(chiphertext: str, dictionary: tp.Set[str]) -> int
     best_shift = 0
     # PUT YOUR CODE HERE
     return best_shift
+
+print(encrypt_caesar('megaVoltage', 16))
