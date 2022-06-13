@@ -19,8 +19,8 @@ def extract_news(parser):
                 "points": 0,
                 "comments": 0,
             }
-        elif i % 30 == 0:
-            ninf = {}
+        #elif i % 30 == 0:
+        #    ninf = {}
         if n.attrs:
             if n.attrs["class"][0] == "athing":
                 ninf["title"] = n.find("a", class_="titlelink").string
@@ -72,3 +72,5 @@ if __name__ == "__main__":
     news_list = get_news(url, n_pages=1)
     for l in news_list:
         print(l)
+    with open('my.html', 'w') as f:
+        f.write(soup.prettify())
